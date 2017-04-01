@@ -28,6 +28,16 @@ app.post('/contact', function(req, res) {
 	res.send('hello ' + req.body.name + '! Nice to meet you!');
 });
 
+//using params in routes
+app.get('/@:username/:post_slug', function(req, res) {
+	console.log(req.params);
+
+	//grab user profile
+	//grab the post based off of the post_slug
+	res.send('You are reading ' + req.params.post_slug + ' by ' + req.params.username);
+});
+
+
 // start the server
 app.listen(port, function() {
 	console.log('App listening on http://localhost:' + port);
