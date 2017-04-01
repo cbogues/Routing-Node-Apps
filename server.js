@@ -7,6 +7,7 @@ var app = require('express')(),
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({ extended: true }));
 
+app.use(authenticate);
 
 // set routes
 app.get('/', function(req, res) {
@@ -29,13 +30,33 @@ app.post('/contact', function(req, res) {
 });
 
 //using params in routes
-app.get('/@:username/:post_slug', function(req, res) {
+app.get('/@:username/:post_slug', checkName, function(req, res) {
 	console.log(req.params);
 
 	//grab user profile
 	//grab the post based off of the post_slug
 	res.send('You are reading ' + req.params.post_slug + ' by ' + req.params.username);
 });
+
+function authenticate( req, res, next) {
+	//make sure the user is authenticated
+	//req.params.token  - probably
+
+	console.log('authenticate user');
+	next();
+}
+
+
+function checkName(req, res, next) {
+	console.log(req.params, 'this is the middleware');
+
+	//validation
+	//check the databases
+	//mongo: var user = User.find.One({username: req.params.username });
+	//if ( ! user)
+
+	next();
+}
 
 
 // start the server
