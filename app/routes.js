@@ -3,7 +3,7 @@ var express = require('express'),
 	path  = require('path');
 	siteController = require('./controllers/siteController'),
 	dashboardController = require('./controllers/dashboardController');
-
+	nameCheckMiddleware = require('./middleware/nameCheck');	
 	// export the router
 module.exports = router;
 
@@ -13,7 +13,7 @@ router.get('/', siteController.showHome);
 router.get('/about', siteController.showAbout);
 router.get('/contact', siteController.showContact);
 router.post('/contact', siteController.processContact);
-router.get('/@:username/:post_slug', siteController.showProfile);
+router.get('/@:username/:post_slug', nameCheckMiddleware, siteController.showProfile);
 
 // dashboard routes
 router.get('/dashboard', dashboardController.showDashboard);
